@@ -19,3 +19,18 @@ wdog_consolidate <- wdog %>%
                                                     ifelse(str_sub(Message, 1, 5) == "Could", "Could not download",
                                                            ifelse(str_sub(Message, 1, 3) == "FTP", "FTP Not able to Delete File on Controller",
                                                            ""))))))))
+
+# Filter for just the signals we are using
+Workable_Signals <- c(4024, 4028, 4029, 4090, 4165, 4301, 4388, 4389, 4704, 
+                      4705, 4706, 6305, 6306, 6307, 6308, 6311, 6313, 6395, 
+                      6407, 6408, 6409, 6410, 6411, 6416, 6421, 6423, 6427, 
+                      6465, 7207)
+wdog_filter <- wdog_consolidate %>%
+  filter(wdog_consolidate$SignalID %in% Workable_Signals) %>%
+  as.tibble()
+
+# Filter for applicable watchdog messages
+Watchdog_Messages <- c("Too Few Records", "Low Advanced Detection Counts", "Could not download", "FTP Not able to Delete File on Controller")
+wdog_messages <- wdog_filter %>%
+  filter(wdog_filter$types %in% Watchdog_Messages) %>%
+  as.tibble()
