@@ -34,3 +34,23 @@ Watchdog_Messages <- c("Too Few Records", "Low Advanced Detection Counts", "Coul
 wdog_messages <- wdog_filter %>%
   filter(wdog_filter$types %in% Watchdog_Messages) %>%
   as.tibble()
+
+# Create a tibble for each message
+wdog_missing <- wdog_messages %>%
+  filter(wdog_messages$types == "Too Few Records")
+
+ggplot(wdog_messages, aes(x= TimeStamp, y = SignalID, color = types)) +
+  geom_point() +
+  xlab("Time") +
+  ylab("Signals")
+
+
+
+# Check that there are not extra types
+wdog_notype <- wdog_consolidate %>%
+  filter(types == "")
+
+# Look at the "Could not download" with attempts = 0. The FTP category doesn't have this issue.
+
+
+
